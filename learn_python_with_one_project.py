@@ -24,17 +24,17 @@ def get_number_of_lines():
         lines = input("Enter the number of lines to bet on (1-" + str(MAX_LINES) + ")?") #add variable to string input
         if lines.isdigit(): #check if it's anumber
             lines = int(lines) #convert to lines
-            if 1 <= lines <= MAX_LINES:
+            if 1 <= lines <= MAX_LINES: #number of lines between 1 and 3
                 break
             else:
                 print("Amount must be between (1-" + str(MAX_LINES) + ")")
         else:
             print("Please enter a number")
-    return lines
+    return lines #return after function is 'completed'
 
 def main():
     balance = deposit() #calling function
-    lines = get_number_of_lines()
-    print(balance, lines)
+    lines = get_number_of_lines() #calling function
+    print(balance, lines) #print result of both functions
 
 main()
