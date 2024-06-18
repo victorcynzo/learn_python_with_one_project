@@ -1,9 +1,57 @@
-#text based slot machine
+#text based slot machine, 3x3 reel slotmachine, 3 in a row
+
+import random #generate slotmachine values randomly
 
 #global constants, available everywhere, easy to change
 MAX_LINES = 3 
 MAX_BET = 100
 MIN_BET = 1
+
+ROWS = 3
+COLS = 3
+
+#how many symbols in each reel, lower letter higher number (times winning)
+symbol_count = {
+    "A": 2,
+    "B": 4,
+    "C": 6,
+    "D": 8,
+}
+
+#generate outcome slotmachine
+def get_slot_machine_spin(rows, cols, symbols):
+    #create list with all possible values and randomly choose 3, remove from list and choose again, not most efficient algorithm
+    all_symbols = []
+    for symbol, symbol_count in symbols.items(): #can do because dict, .items gives both key and value
+        for _ in range(symbol_count): # _ is anonymous variable, doesn't care about count/variable
+            all_symbols.append(symbol) #adding a twice to all_symbols list
+        
+    #what symbol in what column
+    columns = [] #nested list, each nested list is value in column, storing columns
+    #generate random value inside column, how many rows we have
+    for _ in range(cols): #for every column, so three times
+        column = []
+        current_symbols = all_symbols[:] #copy of list
+        for _ in range(rows): #loop through number of values
+            value = random.choice(current_symbols) #use copy of list, remove value afterwards to not be able to pick 4 A's
+            current_symbols.remove(value) #remove from copied list, can't pick it again
+            column.append(value) #add value to column
+        
+        columns.append(column)
+    
+    return columns
+
+def print_slot_machine(columns): #print out slot machine, not easy format to print, laid out as rows, need to flip to print
+    #transposing matrix
+    #loop through every single row
+    for row in range(len(columns[0])): #length of columns, crashes if there's no columns, assume we always have one
+        for i, column in enumerate(columns): #looping through all columns, only print row we're on
+            #enumerate gives index and loop through
+            if i != len(columns) - 1: #is max index to access index in columns list, max index is len-2 (3 items, index is 2)
+                print(column[row], end=" | ") #pipe operator, keeps print on same line instead of next line
+            else:
+                print(column[row], end="")
+        print() #brings down to next line after one row, not everything on one line
 
 #starting point, collecting user input
 def deposit(): #function for collecting user input
@@ -61,5 +109,8 @@ def main():
         else:
             break
     print(f"You are betting ${bet} on {lines} lines. Total bet is equal to: $ {total_bet}.")
+
+    slots = get_slot_machine_spin(ROWS, COLS, symbol_count) 
+    print_slot_machine(slots)
 
 main()
