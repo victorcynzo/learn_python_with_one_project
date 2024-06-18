@@ -2,6 +2,8 @@
 
 #global constants, available everywhere, easy to change
 MAX_LINES = 3 
+MAX_BET = 100
+MIN_BET = 1
 
 #starting point, collecting user input
 def deposit(): #function for collecting user input
@@ -18,12 +20,27 @@ def deposit(): #function for collecting user input
             print ("Please enter a number") #when text is entered
     return amount #return amount after function is called
 
+#amount to bet on each line
+def get_bet():
+    while True:
+        amount = input("What would you like to bet on each line? $ ")
+        if amount.isdigit():
+            amount = int(amount)
+            if MIN_BET <= amount <= MAX_BET:
+                break
+            else:
+                print(f"Amount must be between {MIN_BET} and {MAX_BET}") #way to incorporate valuable in string
+        else:
+            print("Please enter a number.")
+    return amount
+
+
 #collect bet from the user
 def get_number_of_lines():
     while True:
         lines = input("Enter the number of lines to bet on (1 and " + str(MAX_LINES) + ")?") #add variable to string input
         if lines.isdigit(): #check if it's anumber
-            lines = int(lines) #convert to lines
+            lines = int(lines) #convert to integer
             if 1 <= lines <= MAX_LINES: #number of lines between 1 and 3
                 break
             else:
@@ -35,6 +52,7 @@ def get_number_of_lines():
 def main():
     balance = deposit() #calling function
     lines = get_number_of_lines() #calling function
+    bet = get_bet
     print(balance, lines) #print result of both functions
 
 main()
