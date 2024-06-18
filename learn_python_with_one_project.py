@@ -38,7 +38,7 @@ def get_bet():
 #collect bet from the user
 def get_number_of_lines():
     while True:
-        lines = input("Enter the number of lines to bet on (1 and " + str(MAX_LINES) + ")?") #add variable to string input
+        lines = input("Enter the number of lines to bet on (between 1 and " + str(MAX_LINES) + ")? ") #add variable to string input
         if lines.isdigit(): #check if it's anumber
             lines = int(lines) #convert to integer
             if 1 <= lines <= MAX_LINES: #number of lines between 1 and 3
@@ -52,7 +52,8 @@ def get_number_of_lines():
 def main():
     balance = deposit() #calling function
     lines = get_number_of_lines() #calling function
-    bet = get_bet
-    print(balance, lines) #print result of both functions
+    bet = get_bet()
+    total_bet = bet * lines
+    print(f"You are betting ${bet} on {lines} lines. Total bet is equal to: $ {total_bet}.")
 
 main()
