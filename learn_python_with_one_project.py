@@ -135,7 +135,11 @@ def main():
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count) 
     print_slot_machine(slots)
     winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
-    print(f"You won ${winnings}!")
-    print(f"You won on lines: ", *winning_lines) # *unpacks list and passes both values
+    if winnings > 0:
+        print(f"You won ${winnings}!")
+    if len(winning_lines) > 0:
+        print(f"You won on lines: ", *winning_lines) # *unpacks list and passes both values
+    else:
+        print("You have not won on any lines.")
 
 main()
