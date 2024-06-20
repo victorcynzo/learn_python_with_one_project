@@ -3,7 +3,7 @@
 import random #generate slotmachine values randomly
 
 #global constants, available everywhere, easy to change
-MAX_LINES = 3 
+MAX_LINES = 3 #betting on lines is top to bottom
 MAX_BET = 100
 MIN_BET = 1
 
@@ -17,6 +17,29 @@ symbol_count = {
     "C": 6,
     "D": 8,
 }
+
+#multiplier for winnings
+symbol_value = {
+    "A": 5,
+    "B": 4,
+    "C": 3,
+    "D": 2,
+}
+
+def check_winnings(columns, lines, bet, values):
+    winnings = 0
+    winning_lines = []
+    for line in range(lines): #iterate through lines/row, index 0 - 2 aka line 1 - 3
+        symbol = columns[0][line]
+        for column in columns:
+            symbol_to_check = column[line] # = symbol at current row in column
+            if symbol != symbol_to_check:
+                break #not equal to previous then break out of loop
+        else: #runs if break does not run
+            winnings += values[symbol] * bet
+            winning_lines.append(line +1)
+    return winnings, winning_lines
+
 
 #generate outcome slotmachine
 def get_slot_machine_spin(rows, cols, symbols):
@@ -82,7 +105,6 @@ def get_bet():
             print("Please enter a number.")
     return amount
 
-
 #collect bet from the user
 def get_number_of_lines():
     while True:
@@ -112,5 +134,8 @@ def main():
 
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count) 
     print_slot_machine(slots)
+    winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
+    print(f"You won ${winnings}!")
+    print(f"You won on lines: ", *winning_lines) # *unpacks list and passes both values
 
 main()
